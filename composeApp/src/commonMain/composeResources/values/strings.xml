@@ -1,0 +1,4 @@
+<resources>
+    <string name="screen_user_list">Users</string>
+    <string name="screen_user_creation">Create user</string>
+</resources>
