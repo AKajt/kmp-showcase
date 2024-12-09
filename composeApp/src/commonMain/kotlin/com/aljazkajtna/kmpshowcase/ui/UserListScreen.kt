@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.users.ui
+package com.aljazkajtna.kmpshowcase.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image

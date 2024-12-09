@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aljazkajtna.kmpshowcase.di.koinConfig
 import com.aljazkajtna.kmpshowcase.navigation.Screen
-import com.aljazkajtna.kmpshowcase.users.ui.UserListScreen
+import com.aljazkajtna.kmpshowcase.ui.UserListScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 

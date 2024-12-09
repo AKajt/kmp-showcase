@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.users.ui.model
+package com.aljazkajtna.kmpshowcase.ui.model
 
 data class UserUiModel(
     val id: String,

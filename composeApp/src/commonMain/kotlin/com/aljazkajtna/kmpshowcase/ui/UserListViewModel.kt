@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.users.ui
+package com.aljazkajtna.kmpshowcase.ui
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

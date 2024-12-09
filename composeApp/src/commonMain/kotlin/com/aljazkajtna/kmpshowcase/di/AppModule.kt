@@ -1,8 +1,6 @@
 package com.aljazkajtna.kmpshowcase.di
 
-import com.aljazkajtna.kmpshowcase.users.ui.UserListViewModel
-import org.koin.core.module.dsl.bind
-import org.koin.core.module.dsl.singleOf
+import com.aljazkajtna.kmpshowcase.ui.UserListViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
