@@ -5,5 +5,5 @@ data class UserDomainModel(
     val firstName: String,
     val lastName: String,
     val gender: Gender,
-    val age: Int,
+    val age: Long,
 )

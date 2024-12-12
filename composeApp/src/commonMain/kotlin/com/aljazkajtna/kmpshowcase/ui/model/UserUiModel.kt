@@ -5,5 +5,5 @@ data class UserUiModel(
     val firstName: String,
     val lastName: String,
     val gender: String,
-    val age: Int,
+    val age: Long,
 )
