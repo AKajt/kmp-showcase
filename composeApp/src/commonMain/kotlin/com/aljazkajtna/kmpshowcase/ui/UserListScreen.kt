@@ -1,6 +1,7 @@
 package com.aljazkajtna.kmpshowcase.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,8 +39,15 @@ fun UserListScreen() {
             }
         }
     } else {
-        // Display loading or error state
-        Text("Loading users...")
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                textAlign = TextAlign.Center,
+                text = "Loading users..."
+            )
+        }
     }
 }
 
