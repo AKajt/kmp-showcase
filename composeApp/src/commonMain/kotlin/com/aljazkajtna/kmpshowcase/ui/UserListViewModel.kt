@@ -31,4 +31,12 @@ class UserListViewModel(
             }
         }
     }
+
+    fun onCreateUserClick() {
+        TODO("Not yet implemented")
+    }
+
+    fun onShowStatsClick() {
+        TODO("Not yet implemented")
+    }
 }

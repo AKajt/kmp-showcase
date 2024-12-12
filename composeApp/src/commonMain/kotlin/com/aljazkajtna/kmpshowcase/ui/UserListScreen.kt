@@ -7,11 +7,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,24 +38,47 @@ fun UserListScreen() {
 
     val users = uiState.users
 
-    if (users.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(users) { user ->
-                UserCard(user)
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("User List") },
+                actions = {
+                    IconButton(onClick = viewModel::onShowStatsClick) {
+                        Icon(Icons.Filled.Info, contentDescription = "Show Stats")
+                    }
+                },
+                modifier = Modifier.statusBarsPadding()
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = viewModel::onCreateUserClick) {
+                Icon(Icons.Filled.Add, contentDescription = "Create User")
             }
         }
-    } else {
-        Box(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                textAlign = TextAlign.Center,
-                text = "Loading users..."
-            )
+    ) { paddingValues ->
+        if (users.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(users) { user ->
+                    UserCard(user)
+                }
+            }
+        } else {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    textAlign = TextAlign.Center,
+                    text = "Loading users..."
+                )
+            }
         }
     }
 }
