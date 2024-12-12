@@ -1,52 +1,75 @@
 package com.aljazkajtna.kmpshowcase.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Card
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.aljazkajtna.kmpshowcase.Greeting
-import kmp_showcase.composeapp.generated.resources.Res
-import kmp_showcase.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.unit.dp
+import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun UserListScreen(
-    viewModel: UserListViewModel
-) {
-    val state = viewModel.uiState.collectAsState()
+fun UserListScreen() {
+    val viewModel = koinViewModel<UserListViewModel>()
+    val uiState by viewModel.uiState.collectAsState()
 
-    var showContent by remember { mutableStateOf(false) }
+    val users = uiState.users
 
-    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        if (state.value.users != null) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Trolololo!")
-            }
-        } else {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
+    if (users.isNotEmpty()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(users) { user ->
+                UserCard(user)
             }
         }
-        AnimatedVisibility(showContent) {
-            val greeting = remember { Greeting().greet() }
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(painterResource(Res.drawable.compose_multiplatform), null)
-                Text("Compose: $greeting")
+    } else {
+        // Display loading or error state
+        Text("Loading users...")
+    }
+}
+
+@Composable
+fun UserCard(user: UserUiModel) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "${user.firstName} ${user.lastName}",
+                    style = MaterialTheme.typography.h6
+                )
+                Text(
+                    text = "Age: ${user.age}",
+                    style = MaterialTheme.typography.body2
+                )
+                Text(
+                    text = "Gender: ${user.gender.name}",
+                    style = MaterialTheme.typography.body2
+                )
             }
         }
     }
-//    Column(
-//        modifier = Modifier.fillMaxSize(),
-//    ) {  }
-    // TODO:
 }

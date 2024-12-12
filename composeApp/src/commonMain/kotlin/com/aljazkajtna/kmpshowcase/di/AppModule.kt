@@ -7,6 +7,7 @@ import com.aljazkajtna.kmpshowcase.data.local.cache.Database
 import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.UserListViewModel
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
@@ -37,5 +38,10 @@ val appModule = module {
             localSource = get()
         )
     }
-    viewModelOf(::UserListViewModel)
+
+    viewModel {
+        UserListViewModel(
+            usersRepository = get()
+        )
+    }
 }

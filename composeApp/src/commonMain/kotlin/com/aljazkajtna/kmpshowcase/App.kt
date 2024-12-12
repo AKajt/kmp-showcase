@@ -25,9 +25,7 @@ fun App() {
                 startDestination = Screen.UserList.name
             ) {
                 composable(route = Screen.UserList.name) {
-                    UserListScreen(
-                        viewModel = viewModel()
-                    )
+                    UserListScreen()
                 }
             }
         }
