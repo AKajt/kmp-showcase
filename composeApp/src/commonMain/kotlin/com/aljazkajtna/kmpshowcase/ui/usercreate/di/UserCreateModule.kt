@@ -7,7 +7,8 @@ import org.koin.dsl.module
 val userCreateModule = module {
     viewModel {
         UserCreateViewModel(
-            usersRepository = get()
+            usersRepository = get(),
+            nativeUtils = get()
         )
     }
 }

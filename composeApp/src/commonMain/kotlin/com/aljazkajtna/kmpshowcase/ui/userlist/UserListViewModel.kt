@@ -17,8 +17,15 @@ class UserListViewModel(
     private val _uiState = MutableStateFlow(UserListScreenState())
     val uiState: StateFlow<UserListScreenState> = _uiState.asStateFlow()
 
-    init {
+//    init {
+//        loadUsers()
+//    }
+
+    fun onResume() {
         loadUsers()
+    }
+    fun onShowStatsClick() {
+        TODO("Not yet implemented")
     }
 
     private fun loadUsers() {
@@ -31,7 +38,4 @@ class UserListViewModel(
         }
     }
 
-    fun onShowStatsClick() {
-        TODO("Not yet implemented")
-    }
 }

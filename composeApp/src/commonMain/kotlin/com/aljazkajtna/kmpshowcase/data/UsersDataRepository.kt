@@ -10,4 +10,8 @@ class UsersDataRepository(
     override suspend fun users(): List<UserDomainModel> {
         return localSource.getAllUsers()
     }
+
+    override suspend fun insertUser(user: UserDomainModel) {
+        return localSource.insertUser(user)
+    }
 }

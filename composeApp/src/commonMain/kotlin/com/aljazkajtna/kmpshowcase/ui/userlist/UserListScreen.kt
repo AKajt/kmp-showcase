@@ -28,7 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
+import com.aljazkajtna.kmpshowcase.ComposableLifecycle
 import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 import kmp_showcase.composeapp.generated.resources.Res
@@ -74,6 +76,12 @@ fun UserListScreen(
             }
         }
     ) { paddingValues ->
+        ComposableLifecycle { source, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.onResume()
+            }
+        }
+
         val users = uiState.users
         if (users.isNotEmpty()) {
             LazyColumn(

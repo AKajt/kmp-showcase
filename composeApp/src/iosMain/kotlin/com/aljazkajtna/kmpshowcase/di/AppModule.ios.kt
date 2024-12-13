@@ -1,5 +1,6 @@
 package com.aljazkajtna.kmpshowcase.di
 
+import com.aljazkajtna.kmpshowcase.core.NativeUtils
 import com.aljazkajtna.kmpshowcase.data.local.cache.DatabaseDriverFactory
 import com.aljazkajtna.kmpshowcase.data.local.cache.IOSDatabaseDriverFactory
 import org.koin.dsl.koinConfiguration
@@ -10,6 +11,7 @@ actual fun nativeConfig() = koinConfiguration {
     modules(
         module {
             single<DatabaseDriverFactory> { IOSDatabaseDriverFactory() }
+            single { NativeUtils() }
         }
     )
 }

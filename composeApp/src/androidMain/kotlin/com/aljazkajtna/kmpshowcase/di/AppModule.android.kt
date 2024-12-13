@@ -1,6 +1,7 @@
 package com.aljazkajtna.kmpshowcase.di
 
 import com.aljazkajtna.kmpshowcase.MainApplication
+import com.aljazkajtna.kmpshowcase.core.NativeUtils
 import com.aljazkajtna.kmpshowcase.data.local.cache.AndroidDatabaseDriverFactory
 import com.aljazkajtna.kmpshowcase.data.local.cache.DatabaseDriverFactory
 import org.koin.android.ext.koin.androidContext
@@ -14,6 +15,7 @@ actual fun nativeConfig() = koinConfiguration {
     modules(
         module {
             single<DatabaseDriverFactory> { AndroidDatabaseDriverFactory(get()) }
+            single { NativeUtils() }
         }
     )
 }

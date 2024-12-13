@@ -18,3 +18,11 @@ fun UserDataDbModel.toDomain() = UserDomainModel(
     gender = gender,
     age = age
 )
+
+fun UserDomainModel.toDbModel() = UserDataDbModel(
+    id = id,
+    firstName = firstName,
+    lastName = lastName,
+    gender = gender,
+    age = age
+)

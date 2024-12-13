@@ -51,4 +51,14 @@ class Database(
             }
         }
     }
+
+    internal fun insertUser(user: UserDataDbModel) {
+        dbQuery.insertUser(
+            id = user.id,
+            firstName = user.firstName,
+            lastName = user.lastName,
+            gender = user.gender,
+            age = user.age
+        )
+    }
 }

@@ -125,8 +125,7 @@ fun UserCreateScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = {
-                // TODO: Call viewModel to create user with the entered data
-                // viewModel.createUser(firstName, lastName, age.toIntOrNull() ?: 0, selectedGender)
+                viewModel.createUser(firstName, lastName, age.toIntOrNull() ?: 0, selectedGender)
                 navController.popBackStack() // Navigate back after creating
             }) {
                 Text(
