@@ -1,11 +1,10 @@
 <resources>
-    <string name="screen_user_list">Users</string>
-    <string name="screen_user_title">User List</string>
-    <string name="screen_user_show_stats">Show Stats</string>
-    <string name="screen_user_loading">Loading users...</string>
-    <string name="screen_user_name">%1$s %2$s</string>
-    <string name="screen_user_age">Age: %1$s</string>
-    <string name="screen_user_gender">Gender: %1$s</string>
+    <string name="screen_users">Users</string>
+    <string name="screen_users_show_stats">Show Stats</string>
+    <string name="screen_users_loading">Loading users...</string>
+    <string name="screen_users_name">%1$s %2$s</string>
+    <string name="screen_users_age">Age: %1$s</string>
+    <string name="screen_users_gender">Gender: %1$s</string>
 
-    <string name="screen_user_creation">Create user</string>
+    <string name="screen_user_create">Create user</string>
 </resources>

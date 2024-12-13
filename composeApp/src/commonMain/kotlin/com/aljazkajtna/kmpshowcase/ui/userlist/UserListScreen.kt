@@ -32,12 +32,12 @@ import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 import kmp_showcase.composeapp.generated.resources.Res
-import kmp_showcase.composeapp.generated.resources.screen_user_age
-import kmp_showcase.composeapp.generated.resources.screen_user_gender
-import kmp_showcase.composeapp.generated.resources.screen_user_loading
-import kmp_showcase.composeapp.generated.resources.screen_user_name
-import kmp_showcase.composeapp.generated.resources.screen_user_show_stats
-import kmp_showcase.composeapp.generated.resources.screen_user_title
+import kmp_showcase.composeapp.generated.resources.screen_users
+import kmp_showcase.composeapp.generated.resources.screen_users_age
+import kmp_showcase.composeapp.generated.resources.screen_users_gender
+import kmp_showcase.composeapp.generated.resources.screen_users_loading
+import kmp_showcase.composeapp.generated.resources.screen_users_name
+import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -51,12 +51,12 @@ fun UserListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = stringResource(Res.string.screen_user_title)) },
+                title = { Text(text = stringResource(Res.string.screen_users)) },
                 actions = {
                     IconButton(onClick = viewModel::onShowStatsClick) {
                         Icon(
                             imageVector = Icons.Filled.Info,
-                            contentDescription = stringResource(Res.string.screen_user_show_stats)
+                            contentDescription = stringResource(Res.string.screen_users_show_stats)
                         )
                     }
                 },
@@ -95,7 +95,7 @@ fun UserListScreen(
                 Text(
                     modifier = Modifier.align(Alignment.Center),
                     textAlign = TextAlign.Center,
-                    text = stringResource(Res.string.screen_user_loading)
+                    text = stringResource(Res.string.screen_users_loading)
                 )
             }
         }
@@ -119,18 +119,18 @@ fun UserCard(user: UserUiModel) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(
-                        Res.string.screen_user_name,
+                        Res.string.screen_users_name,
                         user.firstName,
                         user.lastName
                     ),
                     style = MaterialTheme.typography.h6
                 )
                 Text(
-                    text = stringResource(Res.string.screen_user_age, user.age),
+                    text = stringResource(Res.string.screen_users_age, user.age),
                     style = MaterialTheme.typography.body2
                 )
                 Text(
-                    text = stringResource(Res.string.screen_user_gender, user.gender.name),
+                    text = stringResource(Res.string.screen_users_gender, user.gender.name),
                     style = MaterialTheme.typography.body2
                 )
             }
