@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.ui
+package com.aljazkajtna.kmpshowcase.ui.userlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,7 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 import kmp_showcase.composeapp.generated.resources.Res
@@ -38,16 +38,15 @@ import kmp_showcase.composeapp.generated.resources.screen_user_loading
 import kmp_showcase.composeapp.generated.resources.screen_user_name
 import kmp_showcase.composeapp.generated.resources.screen_user_show_stats
 import kmp_showcase.composeapp.generated.resources.screen_user_title
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun UserListScreen() {
+fun UserListScreen(
+    navController: NavController
+) {
     val viewModel = koinViewModel<UserListViewModel>()
     val uiState by viewModel.uiState.collectAsState()
-
-    val navController = rememberNavController()
 
     Scaffold(
         topBar = {

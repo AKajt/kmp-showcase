@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.ui
+package com.aljazkajtna.kmpshowcase.ui.userlist
 
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 

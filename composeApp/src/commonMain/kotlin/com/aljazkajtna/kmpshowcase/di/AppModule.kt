@@ -5,10 +5,8 @@ import com.aljazkajtna.kmpshowcase.data.UsersDataRepository
 import com.aljazkajtna.kmpshowcase.data.local.LocalDataSource
 import com.aljazkajtna.kmpshowcase.data.local.cache.Database
 import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
-import com.aljazkajtna.kmpshowcase.ui.UserListViewModel
-import org.koin.core.module.dsl.singleOf
+import com.aljazkajtna.kmpshowcase.ui.userlist.UserListViewModel
 import org.koin.core.module.dsl.viewModel
-import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.koinConfiguration
