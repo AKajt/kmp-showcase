@@ -28,7 +28,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
+import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
+import kmp_showcase.composeapp.generated.resources.Res
+import kmp_showcase.composeapp.generated.resources.screen_user_age
+import kmp_showcase.composeapp.generated.resources.screen_user_gender
+import kmp_showcase.composeapp.generated.resources.screen_user_loading
+import kmp_showcase.composeapp.generated.resources.screen_user_name
+import kmp_showcase.composeapp.generated.resources.screen_user_show_stats
+import kmp_showcase.composeapp.generated.resources.screen_user_title
+import org.jetbrains.compose.resources.getString
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -36,26 +47,35 @@ fun UserListScreen() {
     val viewModel = koinViewModel<UserListViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
-    val users = uiState.users
+    val navController = rememberNavController()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("User List") },
+                title = { Text(text = stringResource(Res.string.screen_user_title)) },
                 actions = {
                     IconButton(onClick = viewModel::onShowStatsClick) {
-                        Icon(Icons.Filled.Info, contentDescription = "Show Stats")
+                        Icon(
+                            imageVector = Icons.Filled.Info,
+                            contentDescription = stringResource(Res.string.screen_user_show_stats)
+                        )
                     }
                 },
                 modifier = Modifier.statusBarsPadding()
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = viewModel::onCreateUserClick) {
-                Icon(Icons.Filled.Add, contentDescription = "Create User")
+            FloatingActionButton(
+                onClick = { navController.navigate(Screen.CreateUser.name) }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null
+                )
             }
         }
     ) { paddingValues ->
+        val users = uiState.users
         if (users.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
@@ -76,7 +96,7 @@ fun UserListScreen() {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
                     textAlign = TextAlign.Center,
-                    text = "Loading users..."
+                    text = stringResource(Res.string.screen_user_loading)
                 )
             }
         }
@@ -99,15 +119,19 @@ fun UserCard(user: UserUiModel) {
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "${user.firstName} ${user.lastName}",
+                    text = stringResource(
+                        Res.string.screen_user_name,
+                        user.firstName,
+                        user.lastName
+                    ),
                     style = MaterialTheme.typography.h6
                 )
                 Text(
-                    text = "Age: ${user.age}",
+                    text = stringResource(Res.string.screen_user_age, user.age),
                     style = MaterialTheme.typography.body2
                 )
                 Text(
-                    text = "Gender: ${user.gender.name}",
+                    text = stringResource(Res.string.screen_user_gender, user.gender.name),
                     style = MaterialTheme.typography.body2
                 )
             }
