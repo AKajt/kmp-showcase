@@ -11,7 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.aljazkajtna.kmpshowcase.di.koinConfig
 import com.aljazkajtna.kmpshowcase.navigation.Screen
-import com.aljazkajtna.kmpshowcase.ui.usercreate.UserCreateScreen
+import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreen
+import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreenMode
 import com.aljazkajtna.kmpshowcase.ui.userlist.UserListScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
@@ -26,15 +27,22 @@ fun App() {
         MaterialTheme {
             NavHost(
                 navController = navController,
-                startDestination = Screen.UserList.name
+                startDestination = Screen.UserList.route
             ) {
-                composable(route = Screen.UserList.name) {
+                composable(route = Screen.UserList.route) {
                     UserListScreen(
                         navController = navController
                     )
                 }
-                composable(route = Screen.CreateUser.name) {
-                    UserCreateScreen(
+                composable(route = Screen.UserCreate.route) {
+                    UserDetailsScreen(
+                        mode = UserDetailsScreenMode.Create,
+                        navController = navController
+                    )
+                }
+                composable(route = Screen.UserEdit.route) {
+                    UserDetailsScreen(
+                        mode = UserDetailsScreenMode.Edit,
                         navController = navController
                     )
                 }

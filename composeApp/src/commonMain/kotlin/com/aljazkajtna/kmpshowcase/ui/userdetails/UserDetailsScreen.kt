@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.ui.usercreate
+package com.aljazkajtna.kmpshowcase.ui.userdetails
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,18 +34,24 @@ import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.domain.model.Gender
 import org.koin.compose.viewmodel.koinViewModel
 
+enum class UserDetailsScreenMode {
+    Create,
+    Edit
+}
+
 @Composable
-fun UserCreateScreen(
+fun UserDetailsScreen(
+    mode: UserDetailsScreenMode,
     navController: NavController
 ) {
-    val viewModel = koinViewModel<UserCreateViewModel>()
+    val viewModel = koinViewModel<UserDetailsViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
     var firstName by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
-    var selectedGender by remember { mutableStateOf(Gender.MALE) }
+    var selectedGender by remember { mutableStateOf(Gender.Male) }
 
     Scaffold(
         topBar = {

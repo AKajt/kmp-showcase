@@ -3,6 +3,7 @@ package com.aljazkajtna.kmpshowcase.ui.userlist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
+import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
 import com.aljazkajtna.kmpshowcase.ui.model.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,10 +17,6 @@ class UserListViewModel(
 
     private val _uiState = MutableStateFlow(UserListScreenState())
     val uiState: StateFlow<UserListScreenState> = _uiState.asStateFlow()
-
-//    init {
-//        loadUsers()
-//    }
 
     fun onResume() {
         loadUsers()
@@ -36,6 +33,10 @@ class UserListViewModel(
                 it.copy(users = users)
             }
         }
+    }
+
+    fun onDeleteUser(userId: String) {
+        TODO("Not yet implemented")
     }
 
 }

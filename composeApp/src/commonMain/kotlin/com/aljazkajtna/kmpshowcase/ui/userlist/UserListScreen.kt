@@ -1,5 +1,7 @@
 package com.aljazkajtna.kmpshowcase.ui.userlist
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,22 +12,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.FractionalThreshold
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
@@ -43,6 +53,7 @@ import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun UserListScreen(
     navController: NavController
@@ -67,7 +78,7 @@ fun UserListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(Screen.CreateUser.name) }
+                onClick = { navController.navigate(Screen.UserEdit.route) }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -88,10 +99,49 @@ fun UserListScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(paddingValues),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(users) { user ->
-                    UserCard(user)
+                items(users, key = { it.id }) { user ->
+                    val dismissState = rememberDismissState(
+                        confirmStateChange = { dismissValue ->
+                            if (dismissValue == DismissValue.DismissedToEnd || dismissValue == DismissValue.DismissedToStart) {
+                                viewModel.onDeleteUser(user.id)
+                            }
+                            true
+                        }
+                    )
+
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(
+                            DismissDirection.StartToEnd,
+                            DismissDirection.EndToStart
+                        ),
+                        dismissThresholds = { direction ->
+                            FractionalThreshold(if (direction == DismissDirection.StartToEnd) 0.25f else 0.5f)
+                        },
+                        background = {
+                            val color = when (dismissState.dismissDirection) {
+                                DismissDirection.StartToEnd -> Color.Red
+                                DismissDirection.EndToStart -> Color.Red
+                                null -> Color.Transparent
+                            }
+                            Box(
+                                Modifier
+                                    .fillMaxSize()
+                                    .padding(8.dp)
+                                    .background(
+                                        color = color,
+                                        shape = RoundedCornerShape(4.dp),
+                                    )
+                            )
+                        },
+                        dismissContent = {
+                            UserCard(
+                                user,
+                                onClick = { navController.navigate(Screen.UserEdit.route + "/${user.id}") }
+                            )
+                        }
+                    )
                 }
             }
         } else {
@@ -111,11 +161,15 @@ fun UserListScreen(
 }
 
 @Composable
-fun UserCard(user: UserUiModel) {
+fun UserCard(
+    user: UserUiModel,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { onClick() }, // Make card clickable
         elevation = 2.dp
     ) {
         Row(

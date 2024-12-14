@@ -1,4 +1,4 @@
-package com.aljazkajtna.kmpshowcase.ui.usercreate
+package com.aljazkajtna.kmpshowcase.ui.userdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class UserCreateViewModel(
+class UserDetailsViewModel(
     private val usersRepository: UsersRepository,
     private val nativeUtils: NativeUtils
 ): ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserCreateScreenState())
-    val uiState: StateFlow<UserCreateScreenState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(UserDetailsScreenState())
+    val uiState: StateFlow<UserDetailsScreenState> = _uiState.asStateFlow()
 
     fun createUser(firstName: String, lastName: String, age: Int, gender: Gender) {
         viewModelScope.launch {

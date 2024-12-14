@@ -1,8 +1,8 @@
-package com.aljazkajtna.kmpshowcase.ui.usercreate
+package com.aljazkajtna.kmpshowcase.ui.userdetails
 
 import com.aljazkajtna.kmpshowcase.domain.model.Gender
 
-data class UserCreateScreenState(
+data class UserDetailsScreenState(
     val firstName: String = "",
     val lastName: String = "",
     val age: String = "",
