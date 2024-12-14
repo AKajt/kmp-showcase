@@ -14,4 +14,8 @@ class UsersDataRepository(
     override suspend fun insertUser(user: UserDomainModel) {
         return localSource.insertUser(user)
     }
+
+    override suspend fun deleteUser(userId: String) {
+        return localSource.deleteUser(userId)
+    }
 }

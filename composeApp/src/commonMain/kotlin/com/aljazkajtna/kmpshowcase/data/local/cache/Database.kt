@@ -61,4 +61,8 @@ class Database(
             age = user.age
         )
     }
+
+    internal fun deleteUser(id: String) {
+        dbQuery.deleteUserById(id)
+    }
 }

@@ -2,7 +2,6 @@ package com.aljazkajtna.kmpshowcase.ui.userlist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -169,7 +168,7 @@ fun UserCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .clickable { onClick() }, // Make card clickable
+            .clickable { onClick() },
         elevation = 2.dp
     ) {
         Row(

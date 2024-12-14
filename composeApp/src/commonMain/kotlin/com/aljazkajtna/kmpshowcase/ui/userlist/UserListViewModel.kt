@@ -25,6 +25,13 @@ class UserListViewModel(
         TODO("Not yet implemented")
     }
 
+    fun onDeleteUser(userId: String) {
+        viewModelScope.launch {
+            usersRepository.deleteUser(userId)
+            loadUsers()
+        }
+    }
+
     private fun loadUsers() {
         viewModelScope.launch {
             val users = usersRepository.users()
@@ -34,9 +41,4 @@ class UserListViewModel(
             }
         }
     }
-
-    fun onDeleteUser(userId: String) {
-        TODO("Not yet implemented")
-    }
-
 }

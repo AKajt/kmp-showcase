@@ -5,4 +5,6 @@ interface UsersRepository {
     suspend fun users() : List<UserDomainModel>
 
     suspend fun insertUser(user: UserDomainModel)
+
+    suspend fun deleteUser(userId: String)
 }

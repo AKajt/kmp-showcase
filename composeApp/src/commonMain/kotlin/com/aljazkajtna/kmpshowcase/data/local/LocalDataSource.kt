@@ -19,4 +19,8 @@ class LocalDataSource(
     override suspend fun insertUser(user: UserDomainModel) {
         database.insertUser(user.toDbModel())
     }
+
+    override suspend fun deleteUser(userId: String) {
+        database.deleteUser(userId)
+    }
 }
