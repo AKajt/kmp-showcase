@@ -57,7 +57,6 @@ import kmp_showcase.composeapp.generated.resources.screen_users_loading
 import kmp_showcase.composeapp.generated.resources.screen_users_name
 import kmp_showcase.composeapp.generated.resources.screen_users_phone
 import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
-import kmp_showcase.composeapp.generated.resources.screen_users_stats_female
 import kmp_showcase.composeapp.generated.resources.screen_users_tab_external
 import kmp_showcase.composeapp.generated.resources.screen_users_tab_local
 import kmp_showcase.composeapp.generated.resources.screen_users_website
@@ -285,7 +284,7 @@ private fun RenderExternalTab(
         ) {
             items(users, key = { it.id }) { user ->
                 ExternalUserCard(user) {
-                    // TODO: Handle click for external user (if needed)
+                    navController.navigate(Screen.UserPosts.route + "/${user.id}")
                 }
             }
         }

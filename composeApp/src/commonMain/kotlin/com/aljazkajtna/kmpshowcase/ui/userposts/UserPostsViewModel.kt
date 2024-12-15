@@ -18,6 +18,13 @@ class UserPostsViewModel(
     val uiState: StateFlow<UserPostsScreenState> = _uiState.asStateFlow()
 
     fun loadUserPosts(userId: Int) {
-        // TODO
+        viewModelScope.launch {
+            val posts = usersRepository.userPosts(userId)
+            _uiState.update {
+                it.copy(
+                    posts = posts.map { it.toUi() }
+                )
+            }
+        }
     }
 }

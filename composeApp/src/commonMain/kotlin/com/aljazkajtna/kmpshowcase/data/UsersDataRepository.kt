@@ -5,6 +5,7 @@ import com.aljazkajtna.kmpshowcase.data.remote.RemoteSource
 import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import com.aljazkajtna.kmpshowcase.domain.external.UserExternalDomainModel
+import com.aljazkajtna.kmpshowcase.domain.external.UserPostDomainModel
 
 class UsersDataRepository(
     private val localSource: LocalSource,
@@ -41,5 +42,9 @@ class UsersDataRepository(
 
     override suspend fun externalUsers(): List<UserExternalDomainModel> {
         return remoteSource.users()
+    }
+
+    override suspend fun userPosts(userId: Int): List<UserPostDomainModel> {
+        return remoteSource.userPosts(userId)
     }
 }

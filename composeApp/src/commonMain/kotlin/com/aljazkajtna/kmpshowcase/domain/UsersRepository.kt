@@ -1,11 +1,12 @@
 package com.aljazkajtna.kmpshowcase.domain
 
 import com.aljazkajtna.kmpshowcase.domain.external.UserExternalDomainModel
+import com.aljazkajtna.kmpshowcase.domain.external.UserPostDomainModel
 import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
 
 interface UsersRepository {
 
-    suspend fun users() : List<UserLocalDomainModel>
+    suspend fun users(): List<UserLocalDomainModel>
 
     suspend fun getUserById(userId: String): UserLocalDomainModel?
 
@@ -20,4 +21,6 @@ interface UsersRepository {
     suspend fun getGenderCounts(): List<Int>
 
     suspend fun externalUsers(): List<UserExternalDomainModel>
+
+    suspend fun userPosts(userId: Int): List<UserPostDomainModel>
 }

@@ -9,6 +9,7 @@ import com.aljazkajtna.kmpshowcase.data.remote.RemoteSource
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.userdetails.di.userDetailsModule
 import com.aljazkajtna.kmpshowcase.ui.userlist.di.userListModule
+import com.aljazkajtna.kmpshowcase.ui.userposts.di.userPostsModule
 import com.aljazkajtna.kmpshowcase.ui.usersstats.di.usersStatsModule
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -72,6 +73,7 @@ val appModule = module {
     includes(
         userListModule,
         userDetailsModule,
-        usersStatsModule
+        usersStatsModule,
+        userPostsModule
     )
 }
