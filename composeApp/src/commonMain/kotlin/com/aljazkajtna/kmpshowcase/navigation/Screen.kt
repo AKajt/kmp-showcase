@@ -3,6 +3,7 @@ package com.aljazkajtna.kmpshowcase.navigation
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_user_details_create
 import kmp_showcase.composeapp.generated.resources.screen_user_details_edit
+import kmp_showcase.composeapp.generated.resources.screen_user_posts
 import kmp_showcase.composeapp.generated.resources.screen_users
 import kmp_showcase.composeapp.generated.resources.screen_users_stats
 import org.jetbrains.compose.resources.StringResource
@@ -26,5 +27,9 @@ enum class Screen(
     UsersStats(
         title = Res.string.screen_users_stats,
         route = "users_stats"
+    ),
+    UserPosts(
+        title = Res.string.screen_user_posts,
+        route = "users_posts"
     )
 }
