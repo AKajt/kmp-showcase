@@ -60,6 +60,12 @@ fun UserListScreen(
     val viewModel = koinViewModel<UserListViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
+    ComposableLifecycle { source, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.onResume()
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -77,7 +83,7 @@ fun UserListScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { navController.navigate(Screen.UserEdit.route) }
+                onClick = { navController.navigate(Screen.UserCreate.route) }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -86,12 +92,6 @@ fun UserListScreen(
             }
         }
     ) { paddingValues ->
-        ComposableLifecycle { source, event ->
-            if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.onResume()
-            }
-        }
-
         val users = uiState.users
         if (users.isNotEmpty()) {
             LazyColumn(
@@ -137,7 +137,9 @@ fun UserListScreen(
                         dismissContent = {
                             UserCard(
                                 user,
-                                onClick = { navController.navigate(Screen.UserEdit.route + "/${user.id}") }
+                                onClick = {
+                                    navController.navigate(Screen.UserEdit.route + "/${user.id}")
+                                }
                             )
                         }
                     )

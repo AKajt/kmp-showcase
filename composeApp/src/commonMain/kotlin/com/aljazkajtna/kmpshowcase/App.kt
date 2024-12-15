@@ -6,9 +6,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.aljazkajtna.kmpshowcase.di.koinConfig
 import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreen
@@ -40,9 +42,14 @@ fun App() {
                         navController = navController
                     )
                 }
-                composable(route = Screen.UserEdit.route) {
+                composable(
+                    route = Screen.UserEdit.route + "/{userId}",
+                    arguments = listOf(navArgument("userId") { type = NavType.StringType })
+                ) { arguments ->
+                    val userId = arguments.arguments?.getString("userId")
                     UserDetailsScreen(
                         mode = UserDetailsScreenMode.Edit,
+                        userId = userId,
                         navController = navController
                     )
                 }

@@ -44,7 +44,7 @@ class Database(
                 dbQuery.insertUser(
                     id = user.id,
                     firstName = user.firstName,
-                    lastName = user. lastName,
+                    lastName = user.lastName,
                     gender = user.gender,
                     age = user.age
                 )
@@ -59,6 +59,29 @@ class Database(
             lastName = user.lastName,
             gender = user.gender,
             age = user.age
+        )
+    }
+
+    internal fun selectUserById(userId: String): UserDataDbModel? {
+        return dbQuery.selectUserById(userId)
+            .executeAsOneOrNull()?.let {
+                mapUserSelecting(
+                    id = it.id,
+                    firstName = it.firstName,
+                    lastName = it.lastName,
+                    gender = it.gender,
+                    age = it.age
+                )
+            }
+    }
+
+    internal fun updateUserById(user: UserDataDbModel) {
+        dbQuery.updateUserById(
+            firstName = user.firstName,
+            lastName = user.lastName,
+            gender = user.gender,
+            age = user.age,
+            id = user.id
         )
     }
 

@@ -8,4 +8,10 @@
 
     <string name="screen_user_details_edit">Edit user</string>
     <string name="screen_user_details_create">Create user</string>
+    <string name="screen_user_details_loading">Loading...</string>
+    <string name="screen_user_details_field_first_name">First name</string>
+    <string name="screen_user_details_field_last_name">Last name</string>
+    <string name="screen_user_details_field_age">Age</string>
+    <string name="screen_user_details_field_gender">Gender</string>
+    <string name="screen_user_details_button_create">Create</string>
 </resources>
