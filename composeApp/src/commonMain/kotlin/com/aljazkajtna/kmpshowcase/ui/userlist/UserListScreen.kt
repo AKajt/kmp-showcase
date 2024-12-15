@@ -62,7 +62,7 @@ fun UserListScreen(
 
     ComposableLifecycle { source, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.onResume()
+            viewModel.loadUsers()
         }
     }
 

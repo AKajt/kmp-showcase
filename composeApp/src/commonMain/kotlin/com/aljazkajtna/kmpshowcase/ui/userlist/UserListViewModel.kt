@@ -17,8 +17,14 @@ class UserListViewModel(
     private val _uiState = MutableStateFlow(UserListScreenState())
     val uiState: StateFlow<UserListScreenState> = _uiState.asStateFlow()
 
-    fun onResume() {
-        loadUsers()
+    fun loadUsers() {
+        viewModelScope.launch {
+            val users = usersRepository.users()
+                .map { it.toUi() }
+            _uiState.update {
+                it.copy(users = users)
+            }
+        }
     }
 
     fun onShowStatsClick() {
@@ -34,16 +40,6 @@ class UserListViewModel(
                         user.id != userId
                     }
                 )
-            }
-        }
-    }
-
-    private fun loadUsers() {
-        viewModelScope.launch {
-            val users = usersRepository.users()
-                .map { it.toUi() }
-            _uiState.update {
-                it.copy(users = users)
             }
         }
     }

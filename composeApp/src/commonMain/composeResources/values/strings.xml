@@ -16,4 +16,6 @@
     <string name="screen_user_details_button_create">Create</string>
     <string name="screen_user_details_button_update">Update</string>
     <string name="screen_user_details_button_delete">Delete</string>
+
+    <string name="screen_users_stats">Users statistics</string>
 </resources>

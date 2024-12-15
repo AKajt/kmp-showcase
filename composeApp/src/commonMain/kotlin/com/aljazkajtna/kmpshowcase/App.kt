@@ -53,6 +53,9 @@ fun App() {
                         navController = navController
                     )
                 }
+                composable(route = Screen.UsersStats.route) {
+
+                }
             }
         }
     }
