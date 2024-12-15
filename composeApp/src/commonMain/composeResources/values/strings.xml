@@ -31,4 +31,8 @@
     <string name="screen_users_stats_chart_slice_description">Gender distribution\nAll users: %1$s\n%2$s: %3$s, %4$s%</string>
 
     <string name="screen_user_posts">User posts</string>
+
+    <string name="screen_create_post">Create post</string>
+    <string name="screen_post_create_title">Title</string>
+    <string name="screen_post_create_body">Body</string>
 </resources>

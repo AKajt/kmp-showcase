@@ -1,6 +1,7 @@
 package com.aljazkajtna.kmpshowcase.navigation
 
 import kmp_showcase.composeapp.generated.resources.Res
+import kmp_showcase.composeapp.generated.resources.screen_create_post
 import kmp_showcase.composeapp.generated.resources.screen_user_details_create
 import kmp_showcase.composeapp.generated.resources.screen_user_details_edit
 import kmp_showcase.composeapp.generated.resources.screen_user_posts
@@ -31,5 +32,9 @@ enum class Screen(
     UserPosts(
         title = Res.string.screen_user_posts,
         route = "users_posts"
+    ),
+    PostCreate(
+        title = Res.string.screen_create_post,
+        route = "create_post"
     )
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.ComposableLifecycle
+import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserPostUiModel
 import com.aljazkajtna.kmpshowcase.ui.userposts.UserPostsViewModel
 import kmp_showcase.composeapp.generated.resources.Res
@@ -60,7 +61,7 @@ fun UserPostsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    // TODO: Navigate to create post screen
+                    navController.navigate(Screen.PostCreate.route + "/${userId}")
                 }
             ) {
                 Icon(
@@ -79,7 +80,7 @@ fun UserPostsScreen(
             ) {
                 items(posts, key = { it.id }) { post ->
                     UserPostCard(post) {
-                        // TODO: Handle post click (if needed)
+                        // no click action needed currently
                     }
                 }
             }

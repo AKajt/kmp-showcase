@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.aljazkajtna.kmpshowcase.di.koinConfig
 import com.aljazkajtna.kmpshowcase.navigation.Screen
+import com.aljazkajtna.kmpshowcase.ui.postcreate.PostCreateScreen
 import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreen
 import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreenMode
 import com.aljazkajtna.kmpshowcase.ui.userlist.UserListScreen
@@ -67,6 +68,18 @@ fun App() {
                     val userId = arguments.arguments?.getInt("userId")
                     userId?.let {
                         UserPostsScreen(
+                            userId = it,
+                            navController = navController
+                        )
+                    }
+                }
+                composable(
+                    route = Screen.PostCreate.route + "/{userId}",
+                    arguments = listOf(navArgument("userId") { type = NavType.IntType })
+                ) { arguments ->
+                    val userId = arguments.arguments?.getInt("userId")
+                    userId?.let {
+                        PostCreateScreen(
                             userId = it,
                             navController = navController
                         )

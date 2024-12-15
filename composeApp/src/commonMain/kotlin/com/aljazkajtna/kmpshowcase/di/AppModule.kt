@@ -7,6 +7,7 @@ import com.aljazkajtna.kmpshowcase.data.local.cache.Database
 import com.aljazkajtna.kmpshowcase.data.remote.RemoteDataSource
 import com.aljazkajtna.kmpshowcase.data.remote.RemoteSource
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
+import com.aljazkajtna.kmpshowcase.ui.postcreate.di.postCreateModule
 import com.aljazkajtna.kmpshowcase.ui.userdetails.di.userDetailsModule
 import com.aljazkajtna.kmpshowcase.ui.userlist.di.userListModule
 import com.aljazkajtna.kmpshowcase.ui.userposts.di.userPostsModule
@@ -74,6 +75,7 @@ val appModule = module {
         userListModule,
         userDetailsModule,
         usersStatsModule,
-        userPostsModule
+        userPostsModule,
+        postCreateModule
     )
 }
