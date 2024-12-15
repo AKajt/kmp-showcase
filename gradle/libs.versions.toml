@@ -17,6 +17,7 @@ junit = "4.13.2"
 kotlin = "2.0.21"
 koin = "4.0.1-Beta1"
 sqlDelight = "2.0.2"
+charts = "2.0.0-SNAPSHOT"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -39,6 +40,7 @@ koin-compose-viewmodel-nav = {module = "io.insert-koin:koin-compose-viewmodel-na
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
 sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqlDelight" }
+charts = { module = "io.github.dautovicharis:charts", version.ref = "charts"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

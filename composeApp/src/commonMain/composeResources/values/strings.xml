@@ -18,4 +18,9 @@
     <string name="screen_user_details_button_delete">Delete</string>
 
     <string name="screen_users_stats">Users statistics</string>
+    <string name="screen_users_stats_male">Male</string>
+    <string name="screen_users_stats_female">Female</string>
+    <string name="screen_users_stats_other">Other</string>
+    <string name="screen_users_stats_chart_description">Gender distribution\nAll users: %1$s\n</string>
+    <string name="screen_users_stats_chart_slice_description">Gender distribution\nAll users: %1$s\n%2$s: %3$s, %4$s%</string>
 </resources>

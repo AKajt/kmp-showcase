@@ -16,6 +16,7 @@ import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreen
 import com.aljazkajtna.kmpshowcase.ui.userdetails.UserDetailsScreenMode
 import com.aljazkajtna.kmpshowcase.ui.userlist.UserListScreen
+import com.aljazkajtna.kmpshowcase.ui.usersstats.UsersStatsScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 
@@ -54,7 +55,9 @@ fun App() {
                     )
                 }
                 composable(route = Screen.UsersStats.route) {
-
+                    UsersStatsScreen(
+                        navController = navController
+                    )
                 }
             }
         }

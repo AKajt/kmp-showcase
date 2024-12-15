@@ -7,6 +7,7 @@ import com.aljazkajtna.kmpshowcase.data.local.cache.Database
 import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.userdetails.di.userDetailsModule
 import com.aljazkajtna.kmpshowcase.ui.userlist.di.userListModule
+import com.aljazkajtna.kmpshowcase.ui.usersstats.di.usersStatsModule
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.includes
 import org.koin.dsl.koinConfiguration
@@ -38,6 +39,7 @@ val appModule = module {
 
     includes(
         userListModule,
-        userDetailsModule
+        userDetailsModule,
+        usersStatsModule
     )
 }

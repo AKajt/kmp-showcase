@@ -117,7 +117,7 @@ fun UserDetailsScreen(
 }
 
 @Composable
-fun RenderLoadingState() {
+private fun RenderLoadingState() {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -131,7 +131,7 @@ fun RenderLoadingState() {
 }
 
 @Composable
-fun RenderReadyState(
+private fun RenderReadyState(
     mode: UserDetailsScreenMode,
     viewModel: UserDetailsViewModel,
     navController: NavController,

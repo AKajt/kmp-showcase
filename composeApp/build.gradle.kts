@@ -43,7 +43,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel.nav)
             implementation(libs.sqldelight.runtime)
-
+            implementation(libs.charts)
         }
 
         androidMain.dependencies {

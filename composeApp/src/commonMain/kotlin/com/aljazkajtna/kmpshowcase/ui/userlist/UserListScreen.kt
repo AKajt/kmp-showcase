@@ -71,7 +71,9 @@ fun UserListScreen(
             TopAppBar(
                 title = { Text(text = stringResource(Res.string.screen_users)) },
                 actions = {
-                    IconButton(onClick = viewModel::onShowStatsClick) {
+                    IconButton(
+                        onClick = { navController.navigate(Screen.UsersStats.route) }
+                    ) {
                         Icon(
                             imageVector = Icons.Filled.Info,
                             contentDescription = stringResource(Res.string.screen_users_show_stats)

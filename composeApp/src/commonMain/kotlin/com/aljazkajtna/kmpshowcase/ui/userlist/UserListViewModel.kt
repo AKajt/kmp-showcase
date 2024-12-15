@@ -27,10 +27,6 @@ class UserListViewModel(
         }
     }
 
-    fun onShowStatsClick() {
-        TODO("Not yet implemented")
-    }
-
     fun onDeleteUser(userId: String) {
         viewModelScope.launch {
             usersRepository.deleteUser(userId)
