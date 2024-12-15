@@ -1,5 +1,7 @@
 <resources>
     <string name="screen_users">Users</string>
+    <string name="screen_users_tab_local">Local</string>
+    <string name="screen_users_tab_external">External</string>
     <string name="screen_users_show_stats">Show Stats</string>
     <string name="screen_users_loading">Loading users...</string>
     <string name="screen_users_name">%1$s %2$s</string>

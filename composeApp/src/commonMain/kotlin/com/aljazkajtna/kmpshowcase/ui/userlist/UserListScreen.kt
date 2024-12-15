@@ -29,9 +29,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.rememberDismissState
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,16 +54,19 @@ import kmp_showcase.composeapp.generated.resources.screen_users_gender
 import kmp_showcase.composeapp.generated.resources.screen_users_loading
 import kmp_showcase.composeapp.generated.resources.screen_users_name
 import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
+import kmp_showcase.composeapp.generated.resources.screen_users_tab_external
+import kmp_showcase.composeapp.generated.resources.screen_users_tab_local
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun UserListScreen(
     navController: NavController
 ) {
     val viewModel = koinViewModel<UserListViewModel>()
     val uiState by viewModel.uiState.collectAsState()
+
+    var selectedTabIndex by remember { mutableStateOf(0) }
 
     ComposableLifecycle { source, event ->
         if (event == Lifecycle.Event.ON_RESUME) {
@@ -84,81 +92,130 @@ fun UserListScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navController.navigate(Screen.UserCreate.route) }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = null
-                )
-            }
-        }
-    ) { paddingValues ->
-        val users = uiState.users
-        if (users.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues),
-            ) {
-                items(users, key = { it.id }) { user ->
-                    val dismissState = rememberDismissState(
-                        confirmStateChange = { dismissValue ->
-                            if (dismissValue == DismissValue.DismissedToEnd || dismissValue == DismissValue.DismissedToStart) {
-                                viewModel.onDeleteUser(user.id)
-                            }
-                            true
-                        }
-                    )
-
-                    SwipeToDismiss(
-                        state = dismissState,
-                        directions = setOf(
-                            DismissDirection.StartToEnd,
-                            DismissDirection.EndToStart
-                        ),
-                        dismissThresholds = { direction ->
-                            FractionalThreshold(if (direction == DismissDirection.StartToEnd) 0.25f else 0.5f)
-                        },
-                        background = {
-                            val color = when (dismissState.dismissDirection) {
-                                DismissDirection.StartToEnd -> Color.Red
-                                DismissDirection.EndToStart -> Color.Red
-                                null -> Color.Transparent
-                            }
-                            Box(
-                                Modifier
-                                    .fillMaxSize()
-                                    .padding(8.dp)
-                                    .background(
-                                        color = color,
-                                        shape = RoundedCornerShape(4.dp),
-                                    )
-                            )
-                        },
-                        dismissContent = {
-                            UserCard(
-                                user,
-                                onClick = {
-                                    navController.navigate(Screen.UserEdit.route + "/${user.id}")
-                                }
-                            )
-                        }
+            if (selectedTabIndex == 0) {
+                FloatingActionButton(
+                    onClick = { navController.navigate(Screen.UserCreate.route) }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = null
                     )
                 }
             }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                    text = stringResource(Res.string.screen_users_loading)
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues)
+        ) {
+            TabRow(selectedTabIndex = selectedTabIndex) {
+                Tab(
+                    selected = selectedTabIndex == 0,
+                    onClick = { selectedTabIndex = 0 },
+                    text = {
+                        Text(text = stringResource(Res.string.screen_users_tab_local))
+                    }
+                )
+                Tab(
+                    selected = selectedTabIndex == 1,
+                    onClick = { selectedTabIndex = 1 },
+                    text = {
+                        Text(text = stringResource(Res.string.screen_users_tab_external))
+                    }
                 )
             }
+
+            when (selectedTabIndex) {
+                0 -> {
+                    RenderLocalTab(
+                        navController = navController,
+                        viewModel = viewModel,
+                        uiState = uiState,
+                        paddingValues = paddingValues
+                    )
+                }
+
+                1 -> {
+                    RenderExternalTab()
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun RenderLocalTab(
+    navController: NavController,
+    viewModel: UserListViewModel,
+    uiState: UserListScreenState,
+    paddingValues: androidx.compose.foundation.layout.PaddingValues
+) {
+    val users = uiState.users
+    if (users.isNotEmpty()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+        ) {
+            items(users, key = { it.id }) { user ->
+                val dismissState = rememberDismissState(
+                    confirmStateChange = { dismissValue ->
+                        if (dismissValue == DismissValue.DismissedToEnd
+                            || dismissValue == DismissValue.DismissedToStart
+                        ) {
+                            viewModel.onDeleteUser(user.id)
+                        }
+                        true
+                    }
+                )
+
+                SwipeToDismiss(
+                    state = dismissState,
+                    directions = setOf(
+                        DismissDirection.StartToEnd,
+                        DismissDirection.EndToStart
+                    ),
+                    dismissThresholds = { direction ->
+                        FractionalThreshold(if (direction == DismissDirection.StartToEnd) 0.25f else 0.5f)
+                    },
+                    background = {
+                        val color = when (dismissState.dismissDirection) {
+                            DismissDirection.StartToEnd -> Color.Red
+                            DismissDirection.EndToStart -> Color.Red
+                            null -> Color.Transparent
+                        }
+                        Box(
+                            Modifier
+                                .fillMaxSize()
+                                .padding(8.dp)
+                                .background(
+                                    color = color,
+                                    shape = RoundedCornerShape(4.dp),
+                                )
+                        )
+                    },
+                    dismissContent = {
+                        UserCard(
+                            user,
+                            onClick = {
+                                navController.navigate(Screen.UserEdit.route + "/${user.id}")
+                            }
+                        )
+                    }
+                )
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                textAlign = TextAlign.Center,
+                text = stringResource(Res.string.screen_users_loading)
+            )
         }
     }
 }
@@ -201,4 +258,9 @@ fun UserCard(
             }
         }
     }
+}
+
+@Composable
+private fun RenderExternalTab() {
+
 }
