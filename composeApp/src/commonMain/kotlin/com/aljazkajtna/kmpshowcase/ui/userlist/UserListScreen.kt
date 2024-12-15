@@ -22,6 +22,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -29,9 +30,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.rememberDismissState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,7 +75,10 @@ fun UserListScreen(
 
     var selectedTabIndex by remember { mutableStateOf(0) }
 
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = { Text(text = stringResource(Res.string.screen_users)) },
@@ -137,6 +143,21 @@ fun UserListScreen(
                         viewModel = viewModel,
                         uiState = uiState,
                     )
+                }
+            }
+        }
+
+        LaunchedEffect(uiState) {
+            when (uiState) {
+                is UserListScreenState.Failed -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Fetching users failed",
+                        duration = SnackbarDuration.Short
+                    )
+                }
+                is UserListScreenState.Idle,
+                is UserListScreenState.Success -> {
+                    // do nothing
                 }
             }
         }
@@ -276,29 +297,34 @@ private fun RenderExternalTab(
         }
     }
 
-    val users = uiState.externalUsers
-    if (users.isNotEmpty()) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            items(users, key = { it.id }) { user ->
-                ExternalUserCard(user) {
-                    navController.navigate(Screen.UserPosts.route + "/${user.id}")
+    when (uiState) {
+        is UserListScreenState.Success -> {
+            if (uiState.externalUsers.isNotEmpty()) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    items(uiState.externalUsers, key = { it.id }) { user ->
+                        ExternalUserCard(user) {
+                            navController.navigate(Screen.UserPosts.route + "/${user.id}")
+                        }
+                    }
                 }
+            } else {
+                EmptyStateMessage()
             }
         }
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                textAlign = TextAlign.Center,
-                text = stringResource(Res.string.screen_users_loading)
-            )
+        else -> {
+            EmptyStateMessage()
         }
+    }
+}
+
+@Composable
+fun EmptyStateMessage() {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            textAlign = TextAlign.Center,
+            text = stringResource(Res.string.screen_users_loading)
+        )
     }
 }
 

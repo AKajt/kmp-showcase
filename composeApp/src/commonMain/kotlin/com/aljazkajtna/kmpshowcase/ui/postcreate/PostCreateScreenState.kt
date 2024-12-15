@@ -1,6 +1,7 @@
 package com.aljazkajtna.kmpshowcase.ui.postcreate
 
-data class PostCreateScreenState(
-    val title: String = "",
-    val body: String = "",
-)
+sealed class PostCreateScreenState {
+    data object Idle : PostCreateScreenState()
+    data object Failed : PostCreateScreenState()
+    data object Success : PostCreateScreenState()
+}

@@ -8,23 +8,38 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
+import com.aljazkajtna.kmpshowcase.ComposableLifecycle
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_create_post
 import kmp_showcase.composeapp.generated.resources.screen_post_create_body
 import kmp_showcase.composeapp.generated.resources.screen_post_create_title
 import kmp_showcase.composeapp.generated.resources.screen_user_details_button_create
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun PostCreateScreen(
     userId: Int,
     navController: NavController
 ) {
+    val viewModel = koinViewModel<PostCreateViewModel>()
+    val uiState by viewModel.uiState.collectAsState()
+
     var title by remember { mutableStateOf("") }
     var body by remember { mutableStateOf("") }
 
+    ComposableLifecycle { source, event ->
+        if (event == Lifecycle.Event.ON_START) {
+            viewModel.setup(userId)
+        }
+    }
+
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = {
@@ -56,15 +71,38 @@ fun PostCreateScreen(
                 label = { Text(stringResource(Res.string.screen_post_create_body)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp) // Adjust height as needed
+                    .height(200.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(onClick = {
-                // TODO: Handle post creation logic
+                viewModel.createPost(
+                    title = title,
+                    body = body
+                )
             }) {
                 Text(stringResource(Res.string.screen_user_details_button_create))
+            }
+        }
+
+        LaunchedEffect(uiState) {
+            when (uiState) {
+                PostCreateScreenState.Success -> {
+                    navController.popBackStack()
+                }
+
+                PostCreateScreenState.Failed -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Post creation failed",
+                        duration = SnackbarDuration.Short
+                    )
+                    navController.popBackStack()
+                }
+
+                PostCreateScreenState.Idle -> {
+                    // do nothing
+                }
             }
         }
     }

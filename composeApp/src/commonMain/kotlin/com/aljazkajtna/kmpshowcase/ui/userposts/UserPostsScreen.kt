@@ -12,11 +12,14 @@ import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,6 +31,7 @@ import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.ComposableLifecycle
 import com.aljazkajtna.kmpshowcase.navigation.Screen
 import com.aljazkajtna.kmpshowcase.ui.model.UserPostUiModel
+import com.aljazkajtna.kmpshowcase.ui.userposts.UserPostsScreenState
 import com.aljazkajtna.kmpshowcase.ui.userposts.UserPostsViewModel
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_user_posts
@@ -44,12 +48,18 @@ fun UserPostsScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     ComposableLifecycle { source, event ->
+        if (event == Lifecycle.Event.ON_START) {
+            viewModel.setup(userId)
+        }
         if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.loadUserPosts(userId)
+            viewModel.loadUserPosts()
         }
     }
 
+    val scaffoldState = rememberScaffoldState()
+
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(
                 title = {
@@ -71,30 +81,66 @@ fun UserPostsScreen(
             }
         }
     ) { paddingValues ->
-        val posts = uiState.posts
-        if (posts.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                items(posts, key = { it.id }) { post ->
-                    UserPostCard(post) {
-                        // no click action needed currently
+        when (uiState) {
+            is UserPostsScreenState.Ready -> {
+                val posts = (uiState as UserPostsScreenState.Ready).posts
+                if (posts.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        items(posts, key = { it.id }) { post ->
+                            UserPostCard(post) {
+                                // no click action needed currently
+                            }
+                        }
+                    }
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    ) {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            textAlign = TextAlign.Center,
+                            text = stringResource(Res.string.screen_users_loading)
+                        )
                     }
                 }
             }
-        } else {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-            ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    textAlign = TextAlign.Center,
-                    text = stringResource(Res.string.screen_users_loading)
-                )
+            UserPostsScreenState.Failed,
+            UserPostsScreenState.Idle,
+            UserPostsScreenState.Success -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(paddingValues)
+                ) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        textAlign = TextAlign.Center,
+                        text = stringResource(Res.string.screen_users_loading)
+                    )
+                }
+            }
+        }
+
+        LaunchedEffect(uiState) {
+            when (uiState) {
+                UserPostsScreenState.Failed -> {
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        message = "Fetching posts for user failed",
+                        duration = SnackbarDuration.Short
+                    )
+                    navController.popBackStack()
+                }
+                UserPostsScreenState.Idle,
+                is UserPostsScreenState.Ready,
+                UserPostsScreenState.Success -> {
+                    // do nothing
+                }
             }
         }
     }

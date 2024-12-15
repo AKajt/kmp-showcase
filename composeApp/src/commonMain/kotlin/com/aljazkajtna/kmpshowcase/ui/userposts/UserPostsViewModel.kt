@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.model.toUi
+import com.aljazkajtna.kmpshowcase.ui.postcreate.PostCreateScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,16 +15,32 @@ class UserPostsViewModel(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserPostsScreenState())
+    private val _uiState = MutableStateFlow<UserPostsScreenState>(UserPostsScreenState.Idle)
     val uiState: StateFlow<UserPostsScreenState> = _uiState.asStateFlow()
+    private var userId: Int? = null
 
-    fun loadUserPosts(userId: Int) {
+    fun setup(userId: Int) {
+        this.userId = userId
+        _uiState.update {
+            UserPostsScreenState.Idle
+        }
+    }
+
+    fun loadUserPosts() {
         viewModelScope.launch {
-            val posts = usersRepository.userPosts(userId)
-            _uiState.update {
-                it.copy(
-                    posts = posts.map { it.toUi() }
-                )
+            userId?.let { userId ->
+                try {
+                    val posts = usersRepository.userPosts(userId)
+                    _uiState.update {
+                        UserPostsScreenState.Ready(
+                            posts = posts.map { it.toUi() }
+                        )
+                    }
+                } catch (e: Exception) {
+                    _uiState.update {
+                        UserPostsScreenState.Failed
+                    }
+                }
             }
         }
     }

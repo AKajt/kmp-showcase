@@ -14,15 +14,25 @@ class UserListViewModel(
     private val usersRepository: UsersRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UserListScreenState())
+    private val _uiState = MutableStateFlow<UserListScreenState>(UserListScreenState.Idle())
     val uiState: StateFlow<UserListScreenState> = _uiState.asStateFlow()
+
+    fun setup() {
+        _uiState.update {
+            UserListScreenState.Idle(it.localUsers)
+        }
+    }
 
     fun loadLocalUsers() {
         viewModelScope.launch {
             val users = usersRepository.users()
                 .map { it.toUi() }
-            _uiState.update {
-                it.copy(localUsers = users)
+            _uiState.update { state ->
+                when(state) {
+                    is UserListScreenState.Failed -> state.copy(localUsers = users)
+                    is UserListScreenState.Idle -> state.copy(localUsers = users)
+                    is UserListScreenState.Success -> state.copy(localUsers = users)
+                }
             }
         }
     }
@@ -31,21 +41,42 @@ class UserListViewModel(
         viewModelScope.launch {
             usersRepository.deleteUser(userId)
             _uiState.update { state ->
-                state.copy(
-                    localUsers = state.localUsers.filter { user ->
-                        user.id != userId
-                    }
-                )
+                when(state) {
+                    is UserListScreenState.Failed -> state.copy(
+                        localUsers = state.localUsers.filter { user ->
+                            user.id != userId
+                        }
+                    )
+                    is UserListScreenState.Idle -> state.copy(
+                        localUsers = state.localUsers.filter { user ->
+                            user.id != userId
+                        }
+                    )
+                    is UserListScreenState.Success -> state.copy(
+                        localUsers = state.localUsers.filter { user ->
+                            user.id != userId
+                        }
+                    )
+                }
             }
         }
     }
 
     fun loadExternalUsers() {
         viewModelScope.launch {
-            val users = usersRepository.externalUsers()
-                .map { it.toUi() }
-            _uiState.update {
-                it.copy(externalUsers = users)
+            try {
+                val users = usersRepository.externalUsers()
+                    .map { it.toUi() }
+                _uiState.update {
+                    UserListScreenState.Success(
+                        localUsers = it.localUsers,
+                        externalUsers = users
+                    )
+                }
+            } catch (e: Exception) {
+                _uiState.update {
+                    UserListScreenState.Failed(it.localUsers)
+                }
             }
         }
     }

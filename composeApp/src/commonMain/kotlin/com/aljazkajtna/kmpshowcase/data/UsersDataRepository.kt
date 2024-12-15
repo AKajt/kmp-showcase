@@ -4,6 +4,7 @@ import com.aljazkajtna.kmpshowcase.data.local.LocalSource
 import com.aljazkajtna.kmpshowcase.data.remote.RemoteSource
 import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
+import com.aljazkajtna.kmpshowcase.domain.external.CreatePostRequestDomainModel
 import com.aljazkajtna.kmpshowcase.domain.external.UserExternalDomainModel
 import com.aljazkajtna.kmpshowcase.domain.external.UserPostDomainModel
 
@@ -46,5 +47,9 @@ class UsersDataRepository(
 
     override suspend fun userPosts(userId: Int): List<UserPostDomainModel> {
         return remoteSource.userPosts(userId)
+    }
+
+    override suspend fun createPost(request: CreatePostRequestDomainModel) {
+        remoteSource.createPost(request)
     }
 }
