@@ -1,4 +1,4 @@
-import com.aljazkajtna.kmpshowcase.domain.model.Gender;
+import com.aljazkajtna.kmpshowcase.domain.local.Gender;
 
 CREATE TABLE User (
     id TEXT NOT NULL,
