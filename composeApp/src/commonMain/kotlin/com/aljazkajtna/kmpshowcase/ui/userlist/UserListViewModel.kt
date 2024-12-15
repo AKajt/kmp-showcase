@@ -17,12 +17,12 @@ class UserListViewModel(
     private val _uiState = MutableStateFlow(UserListScreenState())
     val uiState: StateFlow<UserListScreenState> = _uiState.asStateFlow()
 
-    fun loadUsers() {
+    fun loadLocalUsers() {
         viewModelScope.launch {
             val users = usersRepository.users()
                 .map { it.toUi() }
             _uiState.update {
-                it.copy(users = users)
+                it.copy(localUsers = users)
             }
         }
     }
@@ -32,10 +32,20 @@ class UserListViewModel(
             usersRepository.deleteUser(userId)
             _uiState.update { state ->
                 state.copy(
-                    users = state.users.filter { user ->
+                    localUsers = state.localUsers.filter { user ->
                         user.id != userId
                     }
                 )
+            }
+        }
+    }
+
+    fun loadExternalUsers() {
+        viewModelScope.launch {
+            val users = usersRepository.externalUsers()
+                .map { it.toUi() }
+            _uiState.update {
+                it.copy(externalUsers = users)
             }
         }
     }

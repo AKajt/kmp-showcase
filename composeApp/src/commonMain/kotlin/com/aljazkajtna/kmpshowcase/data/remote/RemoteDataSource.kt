@@ -1,5 +1,7 @@
 package com.aljazkajtna.kmpshowcase.data.remote
 
+import com.aljazkajtna.kmpshowcase.data.remote.model.UserApiModel
+import com.aljazkajtna.kmpshowcase.data.remote.model.toDomain
 import com.aljazkajtna.kmpshowcase.domain.external.UserExternalDomainModel
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -11,6 +13,7 @@ class RemoteDataSource(
 ) : RemoteSource {
 
     override suspend fun users(): List<UserExternalDomainModel> {
-        return httpClient.get(baseUrl + "users").body()
+        val body = httpClient.get(baseUrl + "users").body<List<UserApiModel>>()
+        return body.map { it.toDomain() }
     }
 }

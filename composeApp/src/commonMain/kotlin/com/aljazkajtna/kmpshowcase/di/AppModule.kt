@@ -6,7 +6,6 @@ import com.aljazkajtna.kmpshowcase.data.local.LocalDataSource
 import com.aljazkajtna.kmpshowcase.data.local.cache.Database
 import com.aljazkajtna.kmpshowcase.data.remote.RemoteDataSource
 import com.aljazkajtna.kmpshowcase.data.remote.RemoteSource
-import com.aljazkajtna.kmpshowcase.data.remote.network.JsonPlaceholderApi
 import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.userdetails.di.userDetailsModule
 import com.aljazkajtna.kmpshowcase.ui.userlist.di.userListModule
@@ -55,9 +54,6 @@ val appModule = module {
     }
     single(named("baseUrl")) {
         "https://jsonplaceholder.typicode.com/"
-    }
-    single {
-        JsonPlaceholderApi(client = get())
     }
     single<RemoteSource> {
         RemoteDataSource(

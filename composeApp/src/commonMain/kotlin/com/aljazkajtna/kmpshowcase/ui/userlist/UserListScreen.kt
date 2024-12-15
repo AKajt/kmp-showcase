@@ -46,16 +46,21 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.ComposableLifecycle
 import com.aljazkajtna.kmpshowcase.navigation.Screen
-import com.aljazkajtna.kmpshowcase.ui.model.UserUiModel
+import com.aljazkajtna.kmpshowcase.ui.model.UserExternalUiModel
+import com.aljazkajtna.kmpshowcase.ui.model.UserLocalUiModel
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_users
 import kmp_showcase.composeapp.generated.resources.screen_users_age
+import kmp_showcase.composeapp.generated.resources.screen_users_email
 import kmp_showcase.composeapp.generated.resources.screen_users_gender
 import kmp_showcase.composeapp.generated.resources.screen_users_loading
 import kmp_showcase.composeapp.generated.resources.screen_users_name
+import kmp_showcase.composeapp.generated.resources.screen_users_phone
 import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
+import kmp_showcase.composeapp.generated.resources.screen_users_stats_female
 import kmp_showcase.composeapp.generated.resources.screen_users_tab_external
 import kmp_showcase.composeapp.generated.resources.screen_users_tab_local
+import kmp_showcase.composeapp.generated.resources.screen_users_website
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -67,12 +72,6 @@ fun UserListScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     var selectedTabIndex by remember { mutableStateOf(0) }
-
-    ComposableLifecycle { source, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            viewModel.loadUsers()
-        }
-    }
 
     Scaffold(
         topBar = {
@@ -130,12 +129,15 @@ fun UserListScreen(
                         navController = navController,
                         viewModel = viewModel,
                         uiState = uiState,
-                        paddingValues = paddingValues
                     )
                 }
 
                 1 -> {
-                    RenderExternalTab()
+                    RenderExternalTab(
+                        navController = navController,
+                        viewModel = viewModel,
+                        uiState = uiState,
+                    )
                 }
             }
         }
@@ -148,14 +150,18 @@ private fun RenderLocalTab(
     navController: NavController,
     viewModel: UserListViewModel,
     uiState: UserListScreenState,
-    paddingValues: androidx.compose.foundation.layout.PaddingValues
 ) {
-    val users = uiState.users
+    ComposableLifecycle { source, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.loadLocalUsers()
+        }
+    }
+
+    val users = uiState.localUsers
     if (users.isNotEmpty()) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
         ) {
             items(users, key = { it.id }) { user ->
                 val dismissState = rememberDismissState(
@@ -209,7 +215,6 @@ private fun RenderLocalTab(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
@@ -222,7 +227,7 @@ private fun RenderLocalTab(
 
 @Composable
 fun UserCard(
-    user: UserUiModel,
+    user: UserLocalUiModel,
     onClick: () -> Unit
 ) {
     Card(
@@ -261,6 +266,83 @@ fun UserCard(
 }
 
 @Composable
-private fun RenderExternalTab() {
+private fun RenderExternalTab(
+    navController: NavController,
+    viewModel: UserListViewModel,
+    uiState: UserListScreenState,
+) {
+    ComposableLifecycle { source, event ->
+        if (event == Lifecycle.Event.ON_RESUME) {
+            viewModel.loadExternalUsers()
+        }
+    }
 
+    val users = uiState.externalUsers
+    if (users.isNotEmpty()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            items(users, key = { it.id }) { user ->
+                ExternalUserCard(user) {
+                    // TODO: Handle click for external user (if needed)
+                }
+            }
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                textAlign = TextAlign.Center,
+                text = stringResource(Res.string.screen_users_loading)
+            )
+        }
+    }
+}
+
+@Composable
+fun ExternalUserCard(
+    user: UserExternalUiModel,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable { onClick() },
+        elevation = 2.dp
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = user.name,
+                    style = MaterialTheme.typography.h6
+                )
+                Text(
+                    text = user.username,
+                    style = MaterialTheme.typography.h6
+                )
+                Text(
+                    text = stringResource(Res.string.screen_users_email, user.email),
+                    style = MaterialTheme.typography.body2
+                )
+                Text(
+                    text = stringResource(Res.string.screen_users_phone, user.phone),
+                    style = MaterialTheme.typography.body2
+                )
+                Text(
+                    text = stringResource(Res.string.screen_users_website, user.website),
+                    style = MaterialTheme.typography.body2
+                )
+            }
+        }
+    }
 }
