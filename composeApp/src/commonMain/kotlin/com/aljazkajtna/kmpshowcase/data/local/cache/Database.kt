@@ -4,7 +4,7 @@ import app.cash.sqldelight.EnumColumnAdapter
 import com.aljazkajtna.kmpshowcase.cache.KMPShowcaseDatabase
 import com.aljazkajtna.kmpshowcase.cache.User
 import com.aljazkajtna.kmpshowcase.data.local.model.UserDataDbModel
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
 
 class Database(
     databaseDriverFactory: DatabaseDriverFactory

@@ -3,9 +3,9 @@ package com.aljazkajtna.kmpshowcase.ui.userdetails
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aljazkajtna.kmpshowcase.core.NativeUtils
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
-import com.aljazkajtna.kmpshowcase.domain.model.UserDomainModel
-import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
+import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,7 +42,7 @@ class UserDetailsViewModel(
 
     fun createUser(firstName: String, lastName: String, age: Int, gender: Gender) {
         viewModelScope.launch {
-            val newUser = UserDomainModel(
+            val newUser = UserLocalDomainModel(
                 id = nativeUtils.randomUUID(),
                 firstName = firstName,
                 lastName = lastName,
@@ -67,7 +67,7 @@ class UserDetailsViewModel(
         selectedGender: Gender
     ) {
         viewModelScope.launch {
-            val user = UserDomainModel(
+            val user = UserLocalDomainModel(
                 id = userId,
                 firstName = firstName,
                 lastName = lastName,

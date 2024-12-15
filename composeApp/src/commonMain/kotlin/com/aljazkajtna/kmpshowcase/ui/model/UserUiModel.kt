@@ -1,7 +1,7 @@
 package com.aljazkajtna.kmpshowcase.ui.model
 
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
-import com.aljazkajtna.kmpshowcase.domain.model.UserDomainModel
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
 
 data class UserUiModel(
     val id: String,
@@ -11,7 +11,7 @@ data class UserUiModel(
     val age: Long,
 )
 
-fun UserDomainModel.toUi() = UserUiModel(
+fun UserLocalDomainModel.toUi() = UserUiModel(
     id = id,
     firstName = firstName,
     lastName = lastName,

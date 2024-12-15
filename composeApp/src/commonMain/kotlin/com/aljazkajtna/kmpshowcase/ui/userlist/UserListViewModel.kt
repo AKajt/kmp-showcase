@@ -2,7 +2,7 @@ package com.aljazkajtna.kmpshowcase.ui.userlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aljazkajtna.kmpshowcase.domain.model.UsersRepository
+import com.aljazkajtna.kmpshowcase.domain.UsersRepository
 import com.aljazkajtna.kmpshowcase.ui.model.toUi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

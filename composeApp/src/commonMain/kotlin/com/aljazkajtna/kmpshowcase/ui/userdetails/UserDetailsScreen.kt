@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.ComposableLifecycle
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_user_details_button_delete
 import kmp_showcase.composeapp.generated.resources.screen_user_details_button_update

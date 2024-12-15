@@ -42,6 +42,9 @@ kotlin {
             implementation(libs.androidx.navigation.compose)
             implementation(libs.koin.core)
             implementation(libs.koin.compose.viewmodel.nav)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.sqldelight.runtime)
             implementation(libs.charts)
         }
@@ -50,10 +53,12 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.android)
             implementation(libs.sqldelight.android.driver)
         }
 
         iosMain.dependencies {
+            implementation(libs.ktor.client.darwin)
             implementation(libs.sqldelight.native.driver)
         }
     }

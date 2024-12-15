@@ -1,6 +1,6 @@
 package com.aljazkajtna.kmpshowcase.ui.userdetails
 
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
 
 sealed class UserDetailsScreenState {
     data object Loading : UserDetailsScreenState()

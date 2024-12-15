@@ -1,6 +1,6 @@
-package com.aljazkajtna.kmpshowcase.domain.model
+package com.aljazkajtna.kmpshowcase.domain.local
 
-data class UserDomainModel(
+data class UserLocalDomainModel(
     val id: String,
     val firstName: String,
     val lastName: String,

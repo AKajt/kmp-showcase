@@ -1,7 +1,7 @@
 package com.aljazkajtna.kmpshowcase.data.local.model
 
-import com.aljazkajtna.kmpshowcase.domain.model.Gender
-import com.aljazkajtna.kmpshowcase.domain.model.UserDomainModel
+import com.aljazkajtna.kmpshowcase.domain.local.Gender
+import com.aljazkajtna.kmpshowcase.domain.local.UserLocalDomainModel
 
 data class UserDataDbModel(
     val id: String,
@@ -11,7 +11,7 @@ data class UserDataDbModel(
     val age: Long,
 )
 
-fun UserDataDbModel.toDomain() = UserDomainModel(
+fun UserDataDbModel.toDomain() = UserLocalDomainModel(
     id = id,
     firstName = firstName,
     lastName = lastName,
@@ -19,7 +19,7 @@ fun UserDataDbModel.toDomain() = UserDomainModel(
     age = age
 )
 
-fun UserDomainModel.toDbModel() = UserDataDbModel(
+fun UserLocalDomainModel.toDbModel() = UserDataDbModel(
     id = id,
     firstName = firstName,
     lastName = lastName,
