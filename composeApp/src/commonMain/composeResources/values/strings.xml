@@ -18,6 +18,7 @@
     <string name="screen_user_details_button_delete">Delete</string>
 
     <string name="screen_users_stats">Users statistics</string>
+    <string name="screen_users_stats_average_age">Average age: %1$s years</string>
     <string name="screen_users_stats_male">Male</string>
     <string name="screen_users_stats_female">Female</string>
     <string name="screen_users_stats_other">Other</string>

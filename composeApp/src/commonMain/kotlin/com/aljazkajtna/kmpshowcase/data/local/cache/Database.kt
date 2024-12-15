@@ -88,4 +88,18 @@ class Database(
     internal fun deleteUser(id: String) {
         dbQuery.deleteUserById(id)
     }
+
+    internal fun getAverageAge(): Double? {
+        return dbQuery.getAverageAge().executeAsOneOrNull()?.AVG
+    }
+
+    internal fun getGenderCounts(): List<Int> {
+        return dbQuery.getGenderCounts().executeAsOne().let {
+            listOf(
+                it.maleCount?.toInt() ?: 0,
+                it.femaleCount?.toInt() ?: 0,
+                it.otherCount?.toInt() ?: 0,
+            )
+        }
+    }
 }

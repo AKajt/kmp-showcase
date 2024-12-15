@@ -25,6 +25,8 @@ import io.github.dautovicharis.charts.common.model.ChartDataSet
 import io.github.dautovicharis.charts.style.PieChartDefaults
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_user_details_loading
+import kmp_showcase.composeapp.generated.resources.screen_users_stats
+import kmp_showcase.composeapp.generated.resources.screen_users_stats_average_age
 import kmp_showcase.composeapp.generated.resources.screen_users_stats_chart_description
 import kmp_showcase.composeapp.generated.resources.screen_users_stats_chart_slice_description
 import kmp_showcase.composeapp.generated.resources.screen_users_stats_female
@@ -49,7 +51,11 @@ fun UsersStatsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Statisctics") },
+                title = {
+                    Text(
+                        text = stringResource(Res.string.screen_users_stats)
+                    )
+                },
                 modifier = Modifier.statusBarsPadding()
             )
         },
@@ -93,7 +99,7 @@ private fun RenderReadyState(
     state: UsersStatsScreenState.Ready
 ) {
     Text(
-        text = "Average age: ${state.averageAge}"
+        text = stringResource(Res.string.screen_users_stats_average_age, state.averageAge)
     )
 
     val total = state.maleCount + state.femaleCount + state.otherCount

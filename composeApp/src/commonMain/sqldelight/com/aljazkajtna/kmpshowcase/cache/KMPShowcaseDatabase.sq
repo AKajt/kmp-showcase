@@ -35,3 +35,14 @@ WHERE id = ?;
 deleteUserById:
 DELETE FROM User
 WHERE id = ?;
+
+getAverageAge:
+SELECT AVG(age)
+FROM User;
+
+getGenderCounts:
+SELECT
+  SUM(CASE WHEN LOWER(gender) = 'male' THEN 1 ELSE 0 END) AS maleCount,
+  SUM(CASE WHEN LOWER(gender) = 'female' THEN 1 ELSE 0 END) AS femaleCount,
+  SUM(CASE WHEN LOWER(gender) = 'other' THEN 1 ELSE 0 END) AS otherCount
+FROM User;

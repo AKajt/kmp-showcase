@@ -31,4 +31,12 @@ class LocalDataSource(
     override suspend fun deleteUser(userId: String) {
         database.deleteUser(userId)
     }
+
+    override suspend fun getAverageAge(): Double {
+        return database.getAverageAge() ?: 0.0
+    }
+
+    override suspend fun getGenderCounts(): List<Int> {
+        return database.getGenderCounts()
+    }
 }

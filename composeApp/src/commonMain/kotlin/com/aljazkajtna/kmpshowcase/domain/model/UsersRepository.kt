@@ -11,4 +11,8 @@ interface UsersRepository {
     suspend fun updateUser(user: UserDomainModel)
 
     suspend fun deleteUser(userId: String)
+
+    suspend fun getAverageAge(): Double
+
+    suspend fun getGenderCounts(): List<Int>
 }

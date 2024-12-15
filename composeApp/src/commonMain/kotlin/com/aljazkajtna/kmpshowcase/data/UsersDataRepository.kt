@@ -26,4 +26,12 @@ class UsersDataRepository(
     override suspend fun deleteUser(userId: String) {
         return localSource.deleteUser(userId)
     }
+
+    override suspend fun getAverageAge(): Double {
+        return localSource.getAverageAge()
+    }
+
+    override suspend fun getGenderCounts(): List<Int> {
+        return localSource.getGenderCounts()
+    }
 }
