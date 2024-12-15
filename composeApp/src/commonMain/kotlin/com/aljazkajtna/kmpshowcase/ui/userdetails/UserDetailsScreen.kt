@@ -40,6 +40,8 @@ import androidx.navigation.NavController
 import com.aljazkajtna.kmpshowcase.ComposableLifecycle
 import com.aljazkajtna.kmpshowcase.domain.model.Gender
 import kmp_showcase.composeapp.generated.resources.Res
+import kmp_showcase.composeapp.generated.resources.screen_user_details_button_delete
+import kmp_showcase.composeapp.generated.resources.screen_user_details_button_update
 import kmp_showcase.composeapp.generated.resources.screen_user_details_create
 import kmp_showcase.composeapp.generated.resources.screen_user_details_edit
 import kmp_showcase.composeapp.generated.resources.screen_user_details_field_age
@@ -237,15 +239,17 @@ fun RenderReadyState(
             ) {
                 Button(onClick = {
                     viewModel.onUpdateUserClick(
-                        state.id,
-                        firstName,
-                        lastName,
-                        age,
-                        selectedGender
+                        userId = state.id,
+                        firstName = firstName,
+                        lastName = lastName,
+                        age = age,
+                        selectedGender = selectedGender
                     )
                     navController.popBackStack()
                 }) {
-                    Text("Update")
+                    Text(
+                        text = stringResource(Res.string.screen_user_details_button_update)
+                    )
                 }
                 Button(
                     onClick = {
@@ -254,7 +258,9 @@ fun RenderReadyState(
                     },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red)
                 ) {
-                    Text("Delete")
+                    Text(
+                        text = stringResource(Res.string.screen_user_details_button_delete)
+                    )
                 }
             }
         }
