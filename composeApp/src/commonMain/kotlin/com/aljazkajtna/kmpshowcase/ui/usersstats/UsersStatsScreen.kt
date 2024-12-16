@@ -2,12 +2,17 @@ package com.aljazkajtna.kmpshowcase.ui.usersstats
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,6 +30,7 @@ import io.github.dautovicharis.charts.common.model.ChartDataSet
 import io.github.dautovicharis.charts.style.PieChartDefaults
 import kmp_showcase.composeapp.generated.resources.Res
 import kmp_showcase.composeapp.generated.resources.screen_user_details_loading
+import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
 import kmp_showcase.composeapp.generated.resources.screen_users_stats
 import kmp_showcase.composeapp.generated.resources.screen_users_stats_average_age
 import kmp_showcase.composeapp.generated.resources.screen_users_stats_chart_description
@@ -52,9 +58,21 @@ fun UsersStatsScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(Res.string.screen_users_stats)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            onClick = { navController.popBackStack() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.screen_users_show_stats)
+                            )
+                        }
+                        Text(
+                            text = stringResource(Res.string.screen_users_stats)
+                        )
+                    }
                 },
                 modifier = Modifier.statusBarsPadding()
             )

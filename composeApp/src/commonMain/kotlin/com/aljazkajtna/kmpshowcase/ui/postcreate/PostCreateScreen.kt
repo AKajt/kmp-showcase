@@ -2,6 +2,8 @@ package com.aljazkajtna.kmpshowcase.ui.postcreate
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -16,6 +18,7 @@ import kmp_showcase.composeapp.generated.resources.screen_create_post
 import kmp_showcase.composeapp.generated.resources.screen_post_create_body
 import kmp_showcase.composeapp.generated.resources.screen_post_create_title
 import kmp_showcase.composeapp.generated.resources.screen_user_details_button_create
+import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -43,7 +46,19 @@ fun PostCreateScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(stringResource(Res.string.screen_create_post))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            onClick = { navController.popBackStack() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.screen_users_show_stats)
+                            )
+                        }
+                        Text(stringResource(Res.string.screen_create_post))
+                    }
                 },
                 modifier = Modifier.statusBarsPadding()
             )

@@ -22,6 +22,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,6 +50,7 @@ import kmp_showcase.composeapp.generated.resources.screen_user_details_field_fir
 import kmp_showcase.composeapp.generated.resources.screen_user_details_field_gender
 import kmp_showcase.composeapp.generated.resources.screen_user_details_field_last_name
 import kmp_showcase.composeapp.generated.resources.screen_user_details_loading
+import kmp_showcase.composeapp.generated.resources.screen_users_show_stats
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -84,9 +86,21 @@ fun UserDetailsScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = stringResource(titleRes)
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(
+                            onClick = { navController.popBackStack() }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.screen_users_show_stats)
+                            )
+                        }
+                        Text(
+                            text = stringResource(titleRes)
+                        )
+                    }
                 },
                 modifier = Modifier.statusBarsPadding()
             )

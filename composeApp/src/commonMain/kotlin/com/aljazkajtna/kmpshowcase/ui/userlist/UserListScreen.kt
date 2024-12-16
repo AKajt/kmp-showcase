@@ -24,6 +24,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.SnackbarDuration
 import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.Tab
+import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -31,8 +33,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.rememberDismissState
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -83,13 +83,15 @@ fun UserListScreen(
             TopAppBar(
                 title = { Text(text = stringResource(Res.string.screen_users)) },
                 actions = {
-                    IconButton(
-                        onClick = { navController.navigate(Screen.UsersStats.route) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Info,
-                            contentDescription = stringResource(Res.string.screen_users_show_stats)
-                        )
+                    if (selectedTabIndex == 0) {
+                        IconButton(
+                            onClick = { navController.navigate(Screen.UsersStats.route) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Info,
+                                contentDescription = stringResource(Res.string.screen_users_show_stats)
+                            )
+                        }
                     }
                 },
                 modifier = Modifier.statusBarsPadding()
@@ -155,6 +157,7 @@ fun UserListScreen(
                         duration = SnackbarDuration.Short
                     )
                 }
+
                 is UserListScreenState.Idle,
                 is UserListScreenState.Success -> {
                     // do nothing
@@ -311,6 +314,7 @@ private fun RenderExternalTab(
                 EmptyStateMessage()
             }
         }
+
         else -> {
             EmptyStateMessage()
         }
